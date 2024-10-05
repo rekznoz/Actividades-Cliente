@@ -1,9 +1,8 @@
-
 function solicitarNumero() {
-    let numero;
+    let numero
     do {
         let entrada = prompt("Numero")
-        numero = parseFloat(entrada)
+        numero = parseInt(entrada)
 
         if (isNaN(numero)) {
             alert("ERROR Número invalido\nIntentalo de otra vez!")
@@ -13,23 +12,31 @@ function solicitarNumero() {
     return numero
 }
 
-function sumarEnteros(num1, num2) {
+function obtenerDiasDelMes(mes) {
 
-    // Pasar las entradas a enteros
-    const numero1 = parseInt(num1)
-    const numero2 = parseInt(num2)
+    if (mes < 1 || mes > 12 || isNaN(mes)) {
+        return 0
+    }
 
-    let suma = numero1 + numero2
+    let dias
 
-    // Agrega un numero aleatorio entre 0 y 1 a la suma
-    suma += Math.random()
+    // Determinar el número de días en el mes
+    if (mes === 2) { // Febrero
+        dias = 28
+    } else if (mes === 4 || mes === 6 || mes === 9 || mes === 11) { // Noviembre
+        dias = 30
+    } else { // Enero, Marzo, Mayo, Julio, Agosto, Octubre, Diciembre
+        dias = 31
+    }
 
-    // Redondear a 2 decimales
-    return suma.toFixed(2)
+    return dias
 }
 
-const numero1 = solicitarNumero()
-const numero2 = solicitarNumero()
+const mes = solicitarNumero()
+const dias = obtenerDiasDelMes(mes)
 
-const resultado = sumarEnteros(numero1, numero2)
-alert(`El resultado es ${resultado}`)
+if (dias === 0) {
+    console.log("El mes ingresado no es válido.")
+} else {
+    console.log(`El mes ${mes} tiene ${dias} días.`)
+}

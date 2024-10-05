@@ -6,6 +6,11 @@ class Estudiante {
     }
 
     agregarNota(nota) {
+        if (nota < 0 || nota > 10) {
+            throw new alert("La nota debe estar entre 0 y 10")
+        } else if (isNaN(nota)) {
+            throw new alert("La nota debe ser un número")
+        }
         this.notas.push(nota);
     }
 

@@ -1,5 +1,5 @@
 
-function decodificarROT13(cadena) {
+function codedecoROT13(cadena) {
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
     const rot13 = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
 
@@ -18,4 +18,9 @@ function decodificarROT13(cadena) {
     return resultado
 }
 
+const cadena = 'Test de codificacion ROT13'
+const resultado = codedecoROT13(cadena)
+console.log(resultado)
 
+const decodificado = codedecoROT13(resultado)
+console.log(decodificado)
