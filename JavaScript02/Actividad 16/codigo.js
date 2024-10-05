@@ -10,7 +10,6 @@ class Personaje {
     atacar(enemigo) {
         const danio = generarNumeroAleatorio(5, 20)
         if (enemigo.recibirDanio(danio)) {
-            this.subirNivel()
             return 0
         } else {
             return danio
@@ -62,17 +61,21 @@ const personajes = [
 ]
 
 function simularCombate(personaje1, personaje2) {
-    console.log(`¡Comienza la batalla entre ${personaje1.nombre} y ${personaje2.nombre}!`)
+
+    console.log(`Empieza el combate [${personaje1.nombre} vs ${personaje2.nombre}]`)
+    
     let ronda = 1
     let ataque
     let vidaRecuperada
+
     while (personaje1.vida > 0 && personaje2.vida > 0) {
         console.log(`Ronda ${ronda}`)
 
         ataque = personaje1.atacar(personaje2)
         console.log(`${personaje1.nombre} ataca a ${personaje2.nombre} y le queda ${personaje2.vida} de vida.`)
         if (ataque === 0) {
-            console.log(`${personaje2.nombre} ha sido derrotado.`)
+            console.log(`${personaje2.nombre} se quedo sin puntos de vida.`)
+            personaje2.subirNivel()
             break
         }
         console.log(`${personaje2.nombre} tiene ${personaje2.vida} puntos de vida.`)
@@ -80,7 +83,8 @@ function simularCombate(personaje1, personaje2) {
         ataque = personaje2.atacar(personaje1)
         console.log(`${personaje2.nombre} ataca a ${personaje1.nombre} y le queda ${personaje1.vida} de vida.`)
         if (ataque === 0) {
-            console.log(`${personaje1.nombre} ha sido derrotado.`)
+            console.log(`${personaje1.nombre} se quedo sin puntos de vida.`)
+            personaje1.subirNivel()
             break
         }
         console.log(`${personaje1.nombre} tiene ${personaje1.vida} puntos de vida.`)
