@@ -1,35 +1,19 @@
-
-function solicitarNumero() {
-    let numero;
-    do {
-        let entrada = prompt("Numero")
-        numero = parseFloat(entrada)
-
-        if (isNaN(numero)) {
-            alert("ERROR Número invalido\nIntentalo de otra vez!")
-        }
-
-    } while (isNaN(numero)) // Bucle cuando el prompt no sea un numero
-    return numero
+function calcularSumaPrecios(productos) {
+    const suma = productos.reduce((acumulador, producto) => {
+        return acumulador + producto.precio
+    }, 0)
+    return suma
 }
 
-function sumarEnteros(num1, num2) {
+const productos = [
+    {nombre: "Manzana", precio: 1.50},
+    {nombre: "Naranja", precio: 2.00},
+    {nombre: "Banana", precio: 0.75},
+    {nombre: "Uva", precio: 3.25},
+    {nombre: "Pera", precio: 2.50},
+    {nombre: "Kiwi", precio: 1.15},
+    {nombre: "Mango", precio: 4.00}
+]
 
-    // Pasar las entradas a enteros
-    const numero1 = parseInt(num1)
-    const numero2 = parseInt(num2)
-
-    let suma = numero1 + numero2
-
-    // Agrega un numero aleatorio entre 0 y 1 a la suma
-    suma += Math.random()
-
-    // Redondear a 2 decimales
-    return suma.toFixed(2)
-}
-
-const numero1 = solicitarNumero()
-const numero2 = solicitarNumero()
-
-const resultado = sumarEnteros(numero1, numero2)
-alert(`El resultado es ${resultado}`)
+const suma = calcularSumaPrecios(productos)
+console.log(`La suma de los precios es ${suma}`)
