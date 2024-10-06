@@ -63,7 +63,7 @@ const personajes = [
 function simularCombate(personaje1, personaje2) {
 
     console.log(`Empieza el combate [${personaje1.nombre} vs ${personaje2.nombre}]`)
-    
+
     let ronda = 1
     let ataque
     let vidaRecuperada
