@@ -12,27 +12,35 @@ function solicitarNumero() {
     return numero
 }
 
-function sumarEnteros(num1, num2) {
+function calcularPrecioFinal(precioBase, descuentos) {
 
-    // Pasar las entradas a enteros
-    const numero1 = parseInt(num1)
-    const numero2 = parseInt(num2)
-
-    if (isNaN(numero1) || isNaN(numero2)) {
-        return alert("ERROR Número invalido\nIntentalo de otra vez!")
+    if (typeof precioBase !== 'number' || precioBase <= 0) {
+        throw new Error("Solo numero positivo.")
     }
 
-    let suma = numero1 + numero2
+    descuentos.forEach(descuento => {
+        if (typeof descuento !== 'number' || descuento < 0 || descuento > 100) {
+            throw new Error(`El descuento ${descuento} solo es entre 0 y 100.`)
+        }
+    })
 
-    // Agrega un numero aleatorio entre 0 y 1 a la suma
-    suma += Math.random()
+    let precioFinal = precioBase
+    descuentos.forEach(descuento => {
+        precioFinal -= precioFinal * (descuento / 100)
+    })
 
-    // Redondear a 2 decimales
-    return suma.toFixed(2)
+    return precioFinal
 }
 
-const numero1 = solicitarNumero()
-const numero2 = solicitarNumero()
+function mostrarPrecioFinal(precioBase, descuentos) {
+    try {
+        const precio = calcularPrecioFinal(precioBase, descuentos)
+        console.log(`Precio con descuentos: ${precio.toFixed(2)}.`)
+    } catch (error) {
+        console.error(error.message)
+    }
+}
 
-const resultado = sumarEnteros(numero1, numero2)
-alert(`El resultado es ${resultado}`)
+const precioBase = solicitarNumero()
+const descuentos = [10, 20]
+mostrarPrecioFinal(precioBase, descuentos)
