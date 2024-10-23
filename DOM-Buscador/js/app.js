@@ -2,10 +2,10 @@
 const anios = document.querySelector('#year');
 
 function agregarAnios() {
-    const max = new Date().getFullYear();
-    const min = max - 20;
+    const amax = new Date().getFullYear();
+    const amin = amax - 20;
 
-    for (let i = max; i > min; i--) {
+    for (let i = amax; i > amin; i--) {
         const option = document.createElement('option');
         option.value = i;
         option.textContent = i;
@@ -13,7 +13,9 @@ function agregarAnios() {
     }
 }
 
-agregarAnios()
+document.addEventListener("DOMContentLoaded",() => {
+    agregarAnios()
+})
 
 // Filtros
 const selectores = document.querySelector('#buscador')
@@ -58,7 +60,7 @@ function mostrarResultado(array) {
         const { marca, modelo, year, precio, puertas, color, transmision } = auto
         const autoHTML = document.createElement('p')
         autoHTML.textContent = `
-        Marca: ${marca} - Modelo: ${modelo} - Año: ${year} - Precio: ${precio} - Puertas: ${puertas} - Color: ${color} - Transmision: ${transmision} 
+        Marca: ${marca} / Modelo: ${modelo} / Año: ${year} / Precio: ${precio} / Puertas: ${puertas} / Color: ${color} / Transmision: ${transmision} 
         `
         resultado.appendChild(autoHTML)
    })
