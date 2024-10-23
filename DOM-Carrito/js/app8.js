@@ -9,30 +9,31 @@ function agregarCurso(evento) {
     evento.preventDefault()
     if (evento.target.classList.contains('agregar-carrito')) {
         const curso = evento.target.parentElement.parentElement
-        obtenerInfoCurso(curso)
+        const infoCurso = obtenerInfoCurso(curso)
+        const existingCurso = arrayCursos.find(c => c.id === infoCurso.id)
+
+        if (existingCurso) {
+            existingCurso.quantity += 1
+            modificarCantidad(infoCurso.id, existingCurso.quantity)
+        } else {
+            infoCurso.quantity = 1
+            arrayCursos.push(infoCurso)
+            agregarCarrito(infoCurso)
+        }
+
+        guardarCarritoLocalStorage()
     }
 }
 tablaCursos.addEventListener('click', agregarCurso)
 
 function obtenerInfoCurso(curso) {
-    let cantidad
-
-    const infoCurso = {
+    return {
         imagen: curso.querySelector('img').src,
         titulo: curso.querySelector('h4').textContent,
         precio: curso.querySelector('.precio span').textContent,
-        id: curso.querySelector('a').getAttribute('data-id')
+        id: curso.querySelector('a').getAttribute('data-id'),
+        quantity: 1
     }
-
-    cantidad = arrayCursos.filter(id => id === infoCurso.id).length + 1
-
-    if (cantidad > 1) {
-        modificarCantidad(infoCurso.id, cantidad)
-    } else {
-        agregarCarrito(infoCurso, cantidad)
-    }
-    arrayCursos.push(infoCurso.id)
-    console.log(arrayCursos)
 }
 
 function modificarCantidad(id, cantidad) {
@@ -41,8 +42,8 @@ function modificarCantidad(id, cantidad) {
     cantidadElemento.textContent = cantidad
 }
 
-function agregarCarrito(curso, cantidad) {
-    const row = document.createElement('tr');
+function agregarCarrito(curso) {
+    const row = document.createElement('tr')
 
     /*
 
@@ -57,44 +58,44 @@ function agregarCarrito(curso, cantidad) {
             <a href="#" class="borrar-curso" data-id="${curso.id}">X</a>
         </td>
     `
-     */
+ */
 
     // Imagen
-    const tdImagen = document.createElement('td');
-    const img = document.createElement('img');
-    img.src = curso.imagen;
-    img.width = 100;
-    tdImagen.appendChild(img);
+    const tdImagen = document.createElement('td')
+    const img = document.createElement('img')
+    img.src = curso.imagen
+    img.width = 100
+    tdImagen.appendChild(img)
 
     // Titulo
-    const tdTitulo = document.createElement('td');
-    tdTitulo.textContent = curso.titulo;
+    const tdTitulo = document.createElement('td')
+    tdTitulo.textContent = curso.titulo
 
     // Precio
-    const tdPrecio = document.createElement('td');
-    tdPrecio.textContent = curso.precio;
+    const tdPrecio = document.createElement('td')
+    tdPrecio.textContent = curso.precio
 
     // Cantidad
-    const tdCantidad = document.createElement('td');
-    tdCantidad.id = 'cantidad';
-    tdCantidad.textContent = cantidad;
+    const tdCantidad = document.createElement('td')
+    tdCantidad.id = 'cantidad'
+    tdCantidad.textContent = curso.quantity
 
     // Boton de Eliminar
-    const tdBorrar = document.createElement('td');
-    const borrarLink = document.createElement('a');
-    borrarLink.href = '#';
-    borrarLink.classList.add('borrar-curso');
-    borrarLink.setAttribute('data-id', curso.id);
-    borrarLink.textContent = 'X';
-    tdBorrar.appendChild(borrarLink);
+    const tdBorrar = document.createElement('td')
+    const borrarLink = document.createElement('a')
+    borrarLink.href = '#'
+    borrarLink.classList.add('borrar-curso')
+    borrarLink.setAttribute('data-id', curso.id)
+    borrarLink.textContent = 'X'
+    tdBorrar.appendChild(borrarLink)
 
-    row.appendChild(tdImagen);
-    row.appendChild(tdTitulo);
-    row.appendChild(tdPrecio);
-    row.appendChild(tdCantidad);
-    row.appendChild(tdBorrar);
+    row.appendChild(tdImagen)
+    row.appendChild(tdTitulo)
+    row.appendChild(tdPrecio)
+    row.appendChild(tdCantidad)
+    row.appendChild(tdBorrar)
 
-    tablaCarrito.appendChild(row);
+    tablaCarrito.appendChild(row)
 }
 
 function borrarCurso(evento) {
@@ -102,14 +103,18 @@ function borrarCurso(evento) {
     if (evento.target.classList.contains('borrar-curso')) {
         const curso = evento.target.parentElement.parentElement
         const cursoId = curso.querySelector('a').getAttribute('data-id')
-        const cantidad = curso.querySelector('#cantidad').textContent
+        const cantidad = parseInt(curso.querySelector('#cantidad').textContent)
+
         if (cantidad > 1) {
             modificarCantidad(cursoId, cantidad - 1)
-            arrayCursos.splice(arrayCursos.indexOf(cursoId), 1)
+            const existingCurso = arrayCursos.find(c => c.id === cursoId)
+            existingCurso.quantity -= 1
         } else {
             curso.remove()
-            arrayCursos.splice(arrayCursos.indexOf(cursoId), 1)
+            arrayCursos = arrayCursos.filter(curso => curso.id !== cursoId)
         }
+
+        guardarCarritoLocalStorage()
     }
 }
 tablaCarrito.addEventListener('click', borrarCurso)
@@ -120,5 +125,18 @@ function vaciarCarrito(evento) {
         tablaCarrito.removeChild(tablaCarrito.firstChild)
     }
     arrayCursos = []
+    localStorage.removeItem('carrito')
 }
 botonVaciarCarrito.addEventListener('click', vaciarCarrito)
+
+// Local Storage
+
+function guardarCarritoLocalStorage() {
+    localStorage.setItem('carrito', JSON.stringify(arrayCursos))
+}
+
+function cargarCarritoLocalStorage() {
+    arrayCursos = JSON.parse(localStorage.getItem('carrito')) || []
+    arrayCursos.forEach(curso => agregarCarrito(curso))
+}
+document.addEventListener('DOMContentLoaded', cargarCarritoLocalStorage)
