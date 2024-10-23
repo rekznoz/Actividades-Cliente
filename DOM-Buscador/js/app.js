@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded",() => {
     agregarAnios()
 })
 
-// Filtros
 const selectores = document.querySelector('#buscador')
 const minimoSelector = document.querySelector('#minimo')
 const maximoSelector = document.querySelector('#maximo')
@@ -56,11 +55,18 @@ function mostrarResultado(array) {
     while (resultado.firstChild) {
         resultado.removeChild(resultado.firstChild)
     }
+    if (array.length === 0) {
+        const noResultado = document.createElement('p')
+        noResultado.classList.add('alerta', 'error')
+        noResultado.textContent = 'Nada que mostrar!'
+        resultado.appendChild(noResultado)
+        return
+    }
    array.forEach(auto => {
         const { marca, modelo, year, precio, puertas, color, transmision } = auto
         const autoHTML = document.createElement('p')
         autoHTML.textContent = `
-        Marca: ${marca} / Modelo: ${modelo} / Año: ${year} / Precio: ${precio} / Puertas: ${puertas} / Color: ${color} / Transmision: ${transmision} 
+        ${marca} ${modelo} - Año: ${year} - Precio: ${precio} - Puertas: ${puertas} - Color: ${color} - Transmision: ${transmision} 
         `
         resultado.appendChild(autoHTML)
    })
@@ -68,17 +74,16 @@ function mostrarResultado(array) {
 
 
 // Filtros
-
 function filtrarAutos(array, criterios) {
-    return array.filter(auto => {
+    return array.filter(veh => {
         return (
-            (!criterios.marca || auto.marca === criterios.marca) &&
-            (!criterios.year || auto.year === parseInt(criterios.year)) &&
-            (!criterios.minimo || auto.precio >= parseInt(criterios.minimo)) &&
-            (!criterios.maximo || auto.precio <= parseInt(criterios.maximo)) &&
-            (!criterios.puertas || auto.puertas === parseInt(criterios.puertas)) &&
-            (!criterios.transmision || auto.transmision === criterios.transmision) &&
-            (!criterios.color || auto.color === criterios.color)
+            (!criterios.marca || veh.marca === criterios.marca) &&
+            (!criterios.year || veh.year === parseInt(criterios.year)) &&
+            (!criterios.minimo || veh.precio >= parseInt(criterios.minimo)) &&
+            (!criterios.maximo || veh.precio <= parseInt(criterios.maximo)) &&
+            (!criterios.puertas || veh.puertas === parseInt(criterios.puertas)) &&
+            (!criterios.transmision || veh.transmision === criterios.transmision) &&
+            (!criterios.color || veh.color === criterios.color)
         );
     });
 }
