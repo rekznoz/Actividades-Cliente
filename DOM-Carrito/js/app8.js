@@ -132,11 +132,14 @@ botonVaciarCarrito.addEventListener('click', vaciarCarrito)
 // Local Storage
 
 function guardarCarritoLocalStorage() {
-    localStorage.setItem('carrito', JSON.stringify(arrayCursos))
+    let toString = JSON.stringify(arrayCursos)
+    localStorage.setItem('carrito', toString)
 }
 
 function cargarCarritoLocalStorage() {
     arrayCursos = JSON.parse(localStorage.getItem('carrito')) || []
-    arrayCursos.forEach(curso => agregarCarrito(curso))
+    if (arrayCursos.length) {
+        arrayCursos.forEach(curso => agregarCarrito(curso))
+    }
 }
 document.addEventListener('DOMContentLoaded', cargarCarritoLocalStorage)
