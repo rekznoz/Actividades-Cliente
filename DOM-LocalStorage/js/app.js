@@ -42,19 +42,19 @@ function mostrarTweets() {
     }
 
     tweets.forEach(tweet => {
-        const li = document.createElement('li')
-        li.innerText = tweet.tweet
+        const parrafo = document.createElement('p')
+        parrafo.textContent = tweet.tweet
 
         const btnBorrar = document.createElement('button')
-        btnBorrar.innerText = 'X'
+        btnBorrar.textContent = 'X'
         btnBorrar.classList.add('borrar-tweet')
 
         btnBorrar.onclick = () => {
             borrarTweet(tweet.id)
         }
 
-        li.appendChild(btnBorrar)
-        listaTweets.appendChild(li)
+        parrafo.appendChild(btnBorrar)
+        listaTweets.appendChild(parrafo)
     })
 
 }
