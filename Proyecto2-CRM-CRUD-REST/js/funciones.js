@@ -54,7 +54,7 @@ export function validarTelefono(telefono) {
     }
 
     if (telefono.length < 8 || telefono.length > 15) {
-        mostrarError("El teléfono debe tener entre 3 y 15 caracteres.")
+        mostrarError("El teléfono debe tener entre 8 y 15 caracteres.")
         return false
     }
 

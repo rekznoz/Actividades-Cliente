@@ -1,52 +1,95 @@
 
-let baseDatosGlobal
+import { webInitonLoad, obtenerClientes, eliminarCliente } from './API.js'
 
-/*
-{
-  "clientes": [
-    {
-      "nombre": "Luis!",
-      "email": "correo@correo.com",
-      "telefono": "12",
-      "empresa": "12212",
-      "id": 26
+const tablaBody = document.querySelector('#listado-clientes')
+
+function onLoadWindows(){
+    let conexion = webInitonLoad()
+    conexion.addEventListener('success', mostrarClientes)
+}
+window.addEventListener('load', onLoadWindows)
+
+function mostrarClientes(){
+    limpiarHTML()
+    let clientes = obtenerClientes()
+    clientes.addEventListener('success', mostrarClientesCursor)
+}
+
+function mostrarClientesCursor(evento) {
+    let cursor = evento.target.result
+    if (cursor) {
+        const {nombre, email, telefono, empresa, id} = cursor.value
+
+        /*
+
+        <tbody id="listado-clientes" class="bg-white">
+            <tr>
+                <td class="px-6 py-4 border-b border-gray-200 text-sm text-gray-700">
+                    Rafael
+                </td>
+                <td class="px-6 py-4 border-b border-gray-200 text-sm text-gray-700">
+                    123 456 789
+                </td>
+                <td class="px-6 py-4 border-b border-gray-200 text-sm text-gray-700">
+                    ASD
+                </td>
+                <td class="px-6 py-4 border-b border-gray-200 text-sm text-gray-700">
+                    <button class="text-blue-500 hover:underline">Editar</button>
+                    <button class="text-red-500 hover:underline ml-4">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+
+         */
+
+        const row = document.createElement('tr')
+
+        const nombreTd = document.createElement('td')
+        nombreTd.className = 'px-6 py-4 border-b border-gray-200 text-sm text-gray-700'
+        nombreTd.textContent = nombre
+        row.appendChild(nombreTd)
+
+        const telefonoTd = document.createElement('td')
+        telefonoTd.className = 'px-6 py-4 border-b border-gray-200 text-sm text-gray-700'
+        telefonoTd.textContent = telefono
+        row.appendChild(telefonoTd)
+
+        const empresaTd = document.createElement('td')
+        empresaTd.className = 'px-6 py-4 border-b border-gray-200 text-sm text-gray-700'
+        empresaTd.textContent = empresa
+        row.appendChild(empresaTd)
+
+        const accionesTd = document.createElement('td')
+        accionesTd.className = 'px-6 py-4 border-b border-gray-200 text-sm text-gray-700'
+
+        const editarBoton = document.createElement('button')
+        editarBoton.className = 'text-blue-500 hover:underline'
+        editarBoton.textContent = 'Editar'
+        accionesTd.appendChild(editarBoton)
+
+        editarBoton.onclick = () => {
+            window.location.href = `editar-cliente.html?id=${id}`
+        }
+
+        const eliminarBoton = document.createElement('button')
+        eliminarBoton.className = 'text-red-500 hover:underline ml-4'
+        eliminarBoton.textContent = 'Eliminar'
+        accionesTd.appendChild(eliminarBoton)
+
+        eliminarBoton.onclick = () => {
+            let eliminar = eliminarCliente(id)
+            eliminar.addEventListener('success', mostrarClientes)
+        }
+
+        row.appendChild(accionesTd)
+
+        tablaBody.appendChild(row)
+        cursor.continue()
     }
-  ]
-}
- */
-
-function webInitonLoad(){
-
-    // Abre la base de datos
-    let solicitud = indexedDB.open('Clientes', 1)
-
-    // Eventos de la base de datos
-    solicitud.addEventListener('error', mostrarError)
-    solicitud.addEventListener('success', iniciarBaseDatos )
-    solicitud.addEventListener('upgradeneeded', crearAlmacen)
-
-}
-window.addEventListener('load', webInitonLoad)
-
-// Mustra un mensaje de error en la consola si la base de datos no se puede abrir
-function mostrarError(evento){
-    console.log('Error: ', evento)
 }
 
-// Inicia la base de datos si se puede abrir
-function iniciarBaseDatos(evento){
-    baseDatosGlobal = evento.target.result
-    console.log('Base de datos iniciada')
+function limpiarHTML(){
+    while (tablaBody.firstChild) {
+        tablaBody.removeChild(tablaBody.firstChild)
+    }
 }
-
-// Crea un almacen en la base de datos si no existe
-function crearAlmacen(evento){
-    const basedatos = evento.target.result
-    const almacen = basedatos.createObjectStore('clientes', {keyPath: 'id', autoIncrement: true})
-    almacen.createIndex('buscarNombre', 'nombre', {unique: false})
-    almacen.createIndex('buscarEmail', 'email', {unique: true})
-    almacen.createIndex('buscarTelefono', 'telefono', {unique: false})
-    almacen.createIndex('buscarEmpresa', 'empresa', {unique: false})
-    console.log('Almacen creado')
-}
-

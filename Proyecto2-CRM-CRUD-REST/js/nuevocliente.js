@@ -1,58 +1,86 @@
 
 // Importar funciones.js
 import { validarNombre, validarEmail, validarTelefono } from './funciones.js'
+import { webInitonLoad, agregarCliente } from './API.js'
 
 const formulario = document.querySelector('#formulario')
 
-const nombre = document.querySelector('#nombre')
-const email = document.querySelector('#email')
-const telefono = document.querySelector('#telefono')
-const empresa = document.querySelector('#empresa')
+const campoNombre = document.querySelector('#nombre')
+const campoEmail = document.querySelector('#email')
+const campoTelefono = document.querySelector('#telefono')
+const campoEmpresa = document.querySelector('#empresa')
+
+function onLoadWindows(){
+    let conexion = webInitonLoad()
+}
+window.addEventListener('load', onLoadWindows)
+
+// Validar los campos del formulario
 
 function validarCampoNombre(){
-    if (nombre.value.length > 0) {
-        if (validarNombre(nombre.value)) {
+    if (campoNombre.value.length > 0) {
+        if (validarNombre(campoNombre.value)) {
             console.log('Nombre válido')
+            return true
         }
     }
+    return false
 }
-nombre.addEventListener('blur', validarCampoNombre)
+campoNombre.addEventListener('blur', validarCampoNombre)
 
 function validarCampoEmail(){
-    if (email.value.length > 0) {
-        if (validarEmail(email.value)) {
+    if (campoEmail.value.length > 0) {
+        if (validarEmail(campoEmail.value)) {
             console.log('Email válido')
+            return true
         }
     }
+    return false
 }
-email.addEventListener('blur', validarCampoEmail)
+campoEmail.addEventListener('blur', validarCampoEmail)
 
 function validarCampoTelefono(){
-    if (telefono.value.length > 0) {
-        if (validarTelefono(telefono.value)) {
+    if (campoTelefono.value.length > 0) {
+        if (validarTelefono(campoTelefono.value)) {
             console.log('Teléfono válido')
+            return true
         }
     }
+    return false
 }
-telefono.addEventListener('blur', validarCampoTelefono)
+campoTelefono.addEventListener('blur', validarCampoTelefono)
 
 function validarCampoEmpresa(){
-    if (empresa.value.length > 0) {
-        if (empresa.value.trim() === '') {
+    if (campoEmpresa.value.length > 0) {
+        if (campoEmpresa.value.trim() === '') {
             alert("La empresa es obligatoria.")
             return false
         }
+        return true
+    }
+    alert("La empresa es obligatoria.")
+    return false
+}
+campoEmpresa.addEventListener('blur', validarCampoEmpresa)
+
+// Validar el formulario antes de enviarlo
+
+function validarFormularioEnEnvio(evento){
+    evento.preventDefault()
+
+    if (validarCampoNombre() && validarCampoEmail() && validarCampoTelefono() && validarCampoEmpresa()) {
+        console.log('Todos los campos son válidos')
+
+        let nuevoCliente = {
+            nombre: campoNombre.value,
+            email: campoEmail.value,
+            telefono: campoTelefono.value,
+            empresa: campoEmpresa.value
+        }
+
+        agregarCliente(nuevoCliente)
+
+        formulario.reset()
     }
 }
-empresa.addEventListener('blur', validarCampoEmpresa)
-
-formulario.addEventListener('submit', function(evento){
-    evento.preventDefault()
-    console.log('Enviando formulario...')
-    console.log('Nombre: ', nombre.value)
-    console.log('Email: ', email.value)
-    console.log('Teléfono: ', telefono.value)
-    console.log('Empresa: ', empresa.value)
-    console.log('Formulario enviado')
-    formulario.reset()
-})
+formulario.addEventListener('submit', validarFormularioEnEnvio)
