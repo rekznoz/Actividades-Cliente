@@ -48,6 +48,21 @@ function crearAlmacen(evento){
     almacen.createIndex('buscarTelefono', 'telefono', {unique: false})
     almacen.createIndex('buscarEmpresa', 'empresa', {unique: false})
     console.log('Almacen creado')
+
+    // Clientes de prueba
+    const clientes = [
+        {nombre: 'Rafael', email: 'prueba1@asd.com', telefono: '123456789', empresa: 'ASD 123'},
+        {nombre: 'Natasha', email: 'prueba2@asd.com', telefono: '123456789', empresa: 'ASD 123'},
+        {nombre: 'Marta', email: 'prueba3@asd.com', telefono: '123456789', empresa: 'ASD 123'},
+        {nombre: 'Serafin', email: 'prueba4@asd.com', telefono: '123456789', empresa: 'ASD 123'},
+        {nombre: 'Gustavo', email: 'prueba5@asd.com', telefono: '123456789', empresa: 'ASD 123'},
+    ]
+
+    // Agregar los clientes de prueba
+    clientes.forEach(cliente => {
+        almacen.add(cliente)
+    })
+
 }
 
 export function agregarCliente(cliente){
@@ -55,7 +70,13 @@ export function agregarCliente(cliente){
     let almacen = transaction.objectStore('clientes')
     let agregar = almacen.add(cliente)
 
-    agregar.addEventListener('error', mostrarError)
+    agregar.onerror = (evento) => {
+        if (evento.target.error.name === 'ConstraintError') {
+            alert('El email ya existe')
+        } else {
+            alert('No se pudo agregar el cliente')
+        }
+    }
 }
 
 export function eliminarCliente(id){
@@ -64,7 +85,9 @@ export function eliminarCliente(id){
     let eliminar = almacen.delete(id)
 
     //eliminar.addEventListener('success', mostrarClientes)
-    //eliminar.addEventListener('error', mostrarError)
+    eliminar.onerror = (evento) => {
+        alert('No se pudo eliminar el cliente')
+    }
     return eliminar
 }
 
@@ -73,7 +96,9 @@ export function obtenerCliente(id){
     let almacen = transaction.objectStore('clientes')
     let cliente = almacen.get(id)
 
-    cliente.addEventListener('error', mostrarError)
+    cliente.onerror = (evento) => {
+        alert('No se pudo obtener el cliente')
+    }
     return cliente
 }
 
@@ -81,7 +106,10 @@ export function actualizarCliente(id, cliente){
     let transaction = baseDatosGlobal.transaction(['clientes'], 'readwrite')
     let almacen = transaction.objectStore('clientes')
     let actualizar = almacen.put(cliente)
-    actualizar.addEventListener('error', mostrarError)
+
+    actualizar.onerror = (evento) => {
+        alert('No se pudo actualizar el cliente')
+    }
 }
 
 export function obtenerClientes(){
