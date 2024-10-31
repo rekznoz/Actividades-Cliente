@@ -55,7 +55,10 @@ function crearAlmacen(evento){
         {nombre: 'Natasha', email: 'prueba2@asd.com', telefono: '123456789', empresa: 'ASD 123'},
         {nombre: 'Marta', email: 'prueba3@asd.com', telefono: '123456789', empresa: 'ASD 123'},
         {nombre: 'Serafin', email: 'prueba4@asd.com', telefono: '123456789', empresa: 'ASD 123'},
-        {nombre: 'Gustavo', email: 'prueba5@asd.com', telefono: '123456789', empresa: 'ASD 123'},
+        {nombre: 'Aitana', email: 'prueba5@asd.com', telefono: '123456789', empresa: 'ASD 123'},
+        {nombre: 'Jose', email: 'prueba6@asd.com', telefono: '123456789', empresa: 'ASD 123'},
+        {nombre: 'Felipe', email: 'prueba7@asd.com', telefono: '123456789', empresa: 'ASD 123'},
+        {nombre: 'Gustavo', email: 'prueba8@asd.com', telefono: '123456789', empresa: 'ASD 123'},
     ]
 
     // Agregar los clientes de prueba
@@ -105,10 +108,9 @@ export function obtenerCliente(id){
 export function actualizarCliente(id, cliente){
     let transaction = baseDatosGlobal.transaction(['clientes'], 'readwrite')
     let almacen = transaction.objectStore('clientes')
-    let actualizar = almacen.put(cliente)
-
-    actualizar.onerror = (evento) => {
-        alert('No se pudo actualizar el cliente')
+    let obtener = almacen.get(id)
+    obtener.onsuccess = (evento) => {
+        almacen.put(cliente)
     }
 }
 

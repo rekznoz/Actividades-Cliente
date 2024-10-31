@@ -4,7 +4,7 @@ import { validarCampoNombre, validarCampoEmail, validarCampoTelefono, validarCam
 import { webInitonLoad, agregarCliente } from './API.js'
 
 function onLoadWindows(){
-    let conexion = webInitonLoad()
+    webInitonLoad()
 }
 window.addEventListener('load', onLoadWindows)
 
@@ -16,7 +16,6 @@ const campoTelefono = document.querySelector('#telefono')
 const campoEmpresa = document.querySelector('#empresa')
 
 // Validar el formulario antes de enviarlo
-
 function validarFormularioEnEnvio(evento){
     evento.preventDefault()
 

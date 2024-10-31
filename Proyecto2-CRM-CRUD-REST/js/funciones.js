@@ -17,6 +17,8 @@ function validarNombre(nombre) {
         return false
     }
 
+    // Expresión regular para validar un nombre
+    // La expresión regular permite letras, espacios, apóstrofes y guiones
     const regex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/
     if (!regex.test(nombre)) {
         mostrarError("El nombre solo puede contener letras y espacios.")
@@ -35,6 +37,9 @@ function validarEmail(email) {
         return false
     }
 
+    // Expresión regular para validar un email
+    // La expresión regular permite letras, números, puntos, guiones y guiones bajos con el formato:
+    // de texto@texto
     const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
     if (!regex.test(email)) {
         mostrarError("El email no es válido.")
@@ -58,6 +63,8 @@ function validarTelefono(telefono) {
         return false
     }
 
+    // Expresión regular para validar un teléfono
+    // La expresión regular permite números y espacios
     const regex = /^[0-9\s+]+$/
     if (!regex.test(telefono)) {
         mostrarError("El teléfono solo puede contener números y espacios.")
