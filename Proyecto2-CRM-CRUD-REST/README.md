@@ -22,11 +22,11 @@ Al ser una base de datos local, los datos no se guardan en un servidor, por lo t
 > - `editarcliente.js`: Contiene las funciones que permiten editar un cliente.
 > - `nuevocliente.js`: Contiene las funciones que permiten agregar un nuevo cliente.
 - RAIZ
-- `index.html`: Contiene la estructura de la aplicación.
-- `editar-cliente.html`: Contiene la estructura de la página para editar un cliente.
-- `nuevo-cliente.html`: Contiene la estructura de la página para agregar un nuevo cliente.
-- `README.md`: Contiene la descripción del proyecto.
-- `IndexedDB.md`: Contiene las instrucciones sobre IndexedDB.
+> - `index.html`: Contiene la estructura de la aplicación.
+> - `editar-cliente.html`: Contiene la estructura de la página para editar un cliente.
+> - `nuevo-cliente.html`: Contiene la estructura de la página para agregar un nuevo cliente.
+> - `README.md`: Contiene la descripción del proyecto.
+> - `IndexedDB.md`: Contiene las instrucciones sobre IndexedDB.
 
 ## Estructura de JavaScript
 
@@ -99,35 +99,34 @@ Al ser una base de datos local, los datos no se guardan en un servidor, por lo t
 
 1. Listado de clientes.
 
-Dando clic en el botón "Clientes" se muestra un listado de los clientes guardados en la base de datos.
+- Dando clic en el botón "Clientes" se muestra un listado de los clientes guardados en la base de datos.
 
 ![Listado de clientes](./img/listarClientes.png)
 
 2. Eliminar un cliente.
 
-Dando clic en el botón "Eliminar" se elimina un cliente de la base de datos.
-(Se elimino en este caso el Cliente con ID 1 Rafael)
+- Dando clic en el botón "Eliminar" se elimina un cliente de la base de datos. (Se elimino en este caso el Cliente con ID 1 Rafael)
 
 ![Eliminar un cliente](./img/eliminarCliente.png)
 
 3. Editar un cliente.
 
-Dando clic en el botón "Editar" se muestra un formulario con la información del cliente seleccionado, que podremos editar y guardar.
+- Dando clic en el botón "Editar" se muestra un formulario con la información del cliente seleccionado, que podremos editar y guardar.
 
 ![Editar un cliente](./img/editarCliente.png)
 
 ![Listado de clientes actualizado](./img/clienteEditado.png)
 
-Una vez guardado el cliente editado, se muestra el listado de clientes actualizado.
+- Una vez guardado el cliente editado, se muestra el listado de clientes actualizado.
 
 ![Listado de clientes actualizado](./img/listaEditada.png)
 
 4. Agregar un nuevo cliente.
 
-Dando clic en el botón "Nuevo Cliente" se muestra un formulario para agregar un nuevo cliente.
+- Dando clic en el botón "Nuevo Cliente" se muestra un formulario para agregar un nuevo cliente.
 
 ![Agregar un nuevo cliente](./img/agregarCliente.png)
 
-Una vez guardado el nuevo cliente, se muestra el listado de clientes actualizado.
+- Una vez guardado el nuevo cliente, se muestra el listado de clientes actualizado.
 
 ![Listado de clientes actualizado](./img/clienteAgregado.png)
