@@ -1,6 +1,7 @@
 
 // Importar funciones.js
 import { validarCampoNombre, validarCampoEmail, validarCampoTelefono, validarCampoEmpresa } from './funciones.js'
+// Importar API.js
 import { webInitonLoad, actualizarCliente, obtenerCliente } from './API.js'
 
 function onLoadWindows(){
@@ -38,9 +39,11 @@ export function llenarFormulario(){
 function validarFormularioEnEnvio(evento){
     evento.preventDefault()
 
+    // Validar los campos
     if (validarCampoNombre() && validarCampoEmail() && validarCampoTelefono() && validarCampoEmpresa()) {
         console.log('Todos los campos son válidos')
 
+        // Crear un objeto con la información del cliente
         let nuevoCliente = {
             id : idCliente,
             nombre: campoNombre.value,

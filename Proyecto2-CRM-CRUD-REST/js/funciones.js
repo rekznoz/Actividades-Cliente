@@ -12,6 +12,7 @@ function validarNombre(nombre) {
         return false
     }
 
+    // Validar la longitud del nombre
     if (nombre.length < 2 || nombre.length > 28) {
         mostrarError("El nombre debe tener entre 2 y 28 caracteres.")
         return false
@@ -58,6 +59,7 @@ function validarTelefono(telefono) {
         return false
     }
 
+    // Validar la longitud del teléfono
     if (telefono.length < 8 || telefono.length > 15) {
         mostrarError("El teléfono debe tener entre 8 y 15 caracteres.")
         return false

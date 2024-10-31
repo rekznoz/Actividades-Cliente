@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="21b70d86-be27-482d-94a5-3511f8d46696" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/IndexedDB.md" beforeDir="false" afterPath="$PROJECT_DIR$/IndexedDB.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,23 +56,11 @@
       <workItem from="1730031336920" duration="14611000" />
       <workItem from="1730223897675" duration="4348000" />
       <workItem from="1730231165830" duration="2045000" />
-      <workItem from="1730364057785" duration="6813000" />
+      <workItem from="1730364057785" duration="7334000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/js/API.js</url>
-          <line>117</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

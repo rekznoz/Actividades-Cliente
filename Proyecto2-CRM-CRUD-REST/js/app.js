@@ -1,4 +1,5 @@
 
+// Importar funciones de API.js
 import { webInitonLoad, obtenerClientes, eliminarCliente } from './API.js'
 
 const tablaBody = document.querySelector('#listado-clientes')
@@ -88,6 +89,7 @@ function mostrarClientesCursor(evento) {
     }
 }
 
+// Limpiar el HTML de la tabla
 function limpiarHTML(){
     while (tablaBody.firstChild) {
         tablaBody.removeChild(tablaBody.firstChild)
