@@ -44,6 +44,7 @@ const categorias = document.querySelector('#categorias')
 const cuerpoRecetas = document.querySelector('#resultado')
 const modal = document.querySelector('#modal')
 const modalBody = document.querySelector('#modal .modal-content')
+const botonAleatorio = document.querySelector('#recetaAleatoria')
 
 function cargarCategorias (){
     const url = 'https://www.themealdb.com/api/json/v1/1/categories.php'
@@ -70,10 +71,17 @@ window.addEventListener('load', cargarCategorias)
 function filtrarPorCategoria(evento){
     evento.preventDefault()
     const url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categorias.value}`
+    limpiarHTML(cuerpoRecetas)
     fetch(url)
         .then(respuesta => respuesta.json())
         .then(datos => {
-            mostrarRecetas(datos)
+            if (datos.meals === null) {
+                botonAleatorio.textContent = 'Receta Aleatoria'
+            } else {
+                mostrarRecetas(datos)
+                // SI HAY DATOS EL BOTON DE ALEATORIO SE MODIFICA
+                botonAleatorio.textContent = 'Receta Aleatoria de ' + categorias.value
+            }
         })
         .catch(error => {
             console.log(error)
@@ -81,9 +89,44 @@ function filtrarPorCategoria(evento){
 }
 categorias.addEventListener('change', filtrarPorCategoria)
 
-function mostrarRecetas(datos){
+function obtenerRecetaAleatoria(){
+    if (categorias.value === '-- Seleccione --'){
+        const url = 'https://www.themealdb.com/api/json/v1/1/random.php'
+        fetch(url)
+            .then(respuesta => respuesta.json())
+            .then(datos => {
+                mostrarModal(datos)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    } else {
+        const url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categorias.value}`
+        fetch(url)
+            .then(respuesta => respuesta.json())
+            .then(datos => {
+                const {meals} = datos
+                const aleatorio = Math.floor(Math.random() * meals.length)
+                const id = meals[aleatorio].idMeal
+                const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
+                fetch(url)
+                    .then(respuesta => respuesta.json())
+                    .then(datos => {
+                        mostrarModal(datos)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
 
-    limpiarHTML(cuerpoRecetas)
+}
+botonAleatorio.addEventListener('click', obtenerRecetaAleatoria)
+
+function mostrarRecetas(datos){
 
     const {meals} = datos
     meals.forEach(receta => {
@@ -98,7 +141,7 @@ function mostrarRecetas(datos){
         const img = document.createElement('img')
         img.src = strMealThumb
         img.alt = strMeal
-        img.classList.add('card-img-top', 'img-fluid', 'rounded', 'mx-auto', 'd-block', 'my-3')
+        img.classList.add('card-img-top', 'img-fluid', 'rounded', 'mx-auto', 'd-block')
         divCard.appendChild(img)
 
         const divCardBody = document.createElement('div')

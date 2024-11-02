@@ -47,7 +47,7 @@ function buscarEnFavoritos(evento){
         div.textContent = 'No se encontraron resultados'
         listaFavoritos.appendChild(div)
     }
-    
+
 }
 buscador.addEventListener('input', buscarEnFavoritos)
 
@@ -101,6 +101,8 @@ function mostrarFavorito(favorito){
         let conexion = eliminarElemento(id)
         conexion.addEventListener('success', () => {
             listaFavoritos.removeChild(div)
+            const index = favoritos.indexOf(favorito)
+            favoritos.splice(index, 1)
         })
     }
 
