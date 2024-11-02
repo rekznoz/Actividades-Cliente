@@ -9,6 +9,8 @@ window.addEventListener('load', onLoadWindows)
 const listaFavoritos = document.querySelector('#resultado')
 const modal = document.querySelector('#modal')
 const modalBody = document.querySelector('#modal .modal-content')
+const buscador = document.querySelector('#buscador')
+let favoritos = []
 
 function limpiarHTML(padre){
     while(padre.firstChild){
@@ -22,10 +24,32 @@ function mostrarFavoritos(){
         let cursor = conexion.result
         if(cursor){
             mostrarFavorito(cursor.value)
+            favoritos.push(cursor.value)
             cursor.continue()
         }
+
     })
 }
+
+function buscarEnFavoritos(evento){
+    evento.preventDefault()
+    limpiarHTML(listaFavoritos)
+    const texto = evento.target.value.toLowerCase()
+    favoritos.forEach(favorito => {
+        const {nombre} = favorito
+        if(nombre.toLowerCase().indexOf(texto) !== -1){
+            mostrarFavorito(favorito)
+        }
+    })
+    if(listaFavoritos.children.length === 0){
+        const div = document.createElement('div')
+        div.classList.add('col-md-12')
+        div.textContent = 'No se encontraron resultados'
+        listaFavoritos.appendChild(div)
+    }
+    
+}
+buscador.addEventListener('input', buscarEnFavoritos)
 
 function mostrarFavorito(favorito){
 
