@@ -1,5 +1,5 @@
 
-import { webInitonLoad, agregarElemento } from './api.js'
+import { webInitonLoad, agregarElemento, obtenerElementos, eliminarElemento } from './api.js'
 
 // https://www.themealdb.com/api.php
 
@@ -16,7 +16,8 @@ import { webInitonLoad, agregarElemento } from './api.js'
 // www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata
 
 function onLoadWindows(){
-    webInitonLoad()
+    let conexion = webInitonLoad()
+    conexion.addEventListener('success', cargarFavoritos)
 }
 window.addEventListener('load', onLoadWindows)
 
@@ -24,6 +25,19 @@ function limpiarHTML(padre){
     while(padre.firstChild){
         padre.removeChild(padre.firstChild)
     }
+}
+
+let favoritos = []
+function cargarFavoritos(){
+    let conexion = obtenerElementos()
+    conexion.addEventListener('success', () => {
+        let cursor = conexion.result
+        if(cursor){
+            favoritos.push(cursor.value)
+            cursor.continue()
+        }
+    })
+    console.log(favoritos)
 }
 
 const categorias = document.querySelector('#categorias')
@@ -245,16 +259,37 @@ function mostrarModal(datos){
     buttonCerrar.addEventListener('click', () => {
         modal.style.display = 'none'
     })
+    footer.appendChild(buttonCerrar)
 
-    const buttonFavoritos = document.createElement('button')
-    buttonFavoritos.classList.add('btn', 'btn-primary', 'col')
-    buttonFavoritos.textContent = 'Agregar a Favoritos'
-    buttonFavoritos.addEventListener('click', () => {
-        agregarFavoritos(meals[0], ingredientes, medidas)
+    // Boton dinamico de Favoritos / Borrar
+
+    const botonDinamico = document.createElement('button')
+    botonDinamico.classList.add('btn', 'col')
+
+    if (favoritos.some(favorito => favorito.id === idMeal)){
+        botonDinamico.textContent = 'Borrar de Favoritos'
+        botonDinamico.classList.add('btn-danger')
+    } else {
+        botonDinamico.textContent = 'Agregar a Favoritos'
+        botonDinamico.classList.add('btn-success')
+    }
+
+    botonDinamico.addEventListener('click', () => {
+        if (favoritos.some(favorito => favorito.id === idMeal)){
+            eliminarElemento(idMeal)
+            botonDinamico.textContent = 'Agregar a Favoritos'
+            botonDinamico.classList.remove('btn-danger')
+            botonDinamico.classList.add('btn-success')
+            favoritos = favoritos.filter(favorito => favorito.id !== idMeal)
+        } else {
+            agregarFavoritos(meals[0], ingredientes, medidas)
+            botonDinamico.textContent = 'Borrar de Favoritos'
+            botonDinamico.classList.remove('btn-success')
+            botonDinamico.classList.add('btn-danger')
+        }
     })
 
-    footer.appendChild(buttonCerrar)
-    footer.appendChild(buttonFavoritos)
+    footer.appendChild(botonDinamico)
 
 }
 
@@ -270,4 +305,5 @@ function agregarFavoritos(receta, ingredientes, medidas){
         medidas: medidas
     }
     agregarElemento(objetoReceta)
+    favoritos.push(objetoReceta)
 }

@@ -184,6 +184,6 @@ function mostrarModal(datos){
     })
 
     footer.appendChild(buttonCerrar)
-    
+
 }
 
