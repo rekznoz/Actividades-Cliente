@@ -1,4 +1,6 @@
 
+import { webInitonLoad, agregarElemento } from './api.js'
+
 // https://www.themealdb.com/api.php
 
 // Categorias
@@ -12,6 +14,17 @@
 
 // Buscar receta
 // www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata
+
+function onLoadWindows(){
+    webInitonLoad()
+}
+window.addEventListener('load', onLoadWindows)
+
+function limpiarHTML(padre){
+    while(padre.firstChild){
+        padre.removeChild(padre.firstChild)
+    }
+}
 
 const categorias = document.querySelector('#categorias')
 const cuerpoRecetas = document.querySelector('#resultado')
@@ -121,7 +134,7 @@ function mostrarModal(datos){
     limpiarHTML(modalBody)
 
     // Limpio el Modal y lo reconstruyo
-    
+
     const header = document.createElement('div')
     header.classList.add('modal-header')
 
@@ -153,7 +166,7 @@ function mostrarModal(datos){
 
     const {meals} = datos
 
-    const {strMeal, strMealThumb, strInstructions, strYoutube} = meals[0]
+    const {idMeal, strMeal, strMealThumb, strInstructions, strYoutube} = meals[0]
 
     const ingredientes = []
     for(let i = 1; i <= 20; i++){
@@ -237,7 +250,7 @@ function mostrarModal(datos){
     buttonFavoritos.classList.add('btn', 'btn-primary', 'col')
     buttonFavoritos.textContent = 'Agregar a Favoritos'
     buttonFavoritos.addEventListener('click', () => {
-        console.log('Agregar a Favoritos')
+        agregarFavoritos(meals[0], ingredientes, medidas)
     })
 
     footer.appendChild(buttonCerrar)
@@ -245,8 +258,16 @@ function mostrarModal(datos){
 
 }
 
-function limpiarHTML(padre){
-    while(padre.firstChild){
-        padre.removeChild(padre.firstChild)
+function agregarFavoritos(receta, ingredientes, medidas){
+    const {idMeal, strMeal, strMealThumb, strInstructions, strYoutube} = receta
+    const objetoReceta = {
+        id: idMeal,
+        nombre: strMeal,
+        imagen: strMealThumb,
+        instrucciones: strInstructions,
+        video: strYoutube,
+        ingredientes: ingredientes,
+        medidas: medidas
     }
+    agregarElemento(objetoReceta)
 }
