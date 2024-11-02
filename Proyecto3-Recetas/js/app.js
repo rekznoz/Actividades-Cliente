@@ -120,6 +120,8 @@ function mostrarModal(datos){
 
     limpiarHTML(modalBody)
 
+    // Limpio el Modal y lo reconstruyo
+    
     const header = document.createElement('div')
     header.classList.add('modal-header')
 
@@ -169,6 +171,8 @@ function mostrarModal(datos){
 
     h1.textContent = strMeal
 
+    // Imagen
+
     const img = document.createElement('img')
     img.src = strMealThumb
     img.alt = strMeal
@@ -191,6 +195,8 @@ function mostrarModal(datos){
         li.textContent = `${ingrediente} - ${medidas[index]}`
         ul.appendChild(li)
     })
+
+    // Video Receta
 
     const h3Video = document.createElement('h3')
     h3Video.textContent = 'Video Receta'
